@@ -22,12 +22,20 @@ public class DataStore implements Serializable {
         version = VERSION;
     }
     
+    /**
+     * Checks whether the loaded {@link com.ppetrie.crosshair.DataStore DataStore} object needs modification due to a version difference
+     */
     public void checkVersion() {
         if(version != VERSION) {
             // TODO
         }
     }
     
+    
+    /**
+     * Gets the names of all saved profiles
+     * @return  the list of names
+     */
     public ArrayList<String> getNames() {
         ArrayList<String> names = new ArrayList<>();
         for(Setting setting : settings) {
@@ -36,6 +44,11 @@ public class DataStore implements Serializable {
         return names;
     }
     
+    /**
+     * Gets the position of a saved profile
+     * @param name  the profile name
+     * @return      the saved position
+     */
     public double[] getPosition(String name) {
         for(Setting setting : settings) {
             if(setting.getName().equalsIgnoreCase(name)) {
@@ -45,6 +58,12 @@ public class DataStore implements Serializable {
         return null;
     }
     
+    /**
+     * Updates the position of a saved profile or creates a new one
+     * @param name  the profile name
+     * @param x     the x-position
+     * @param y     the y-position
+     */
     public void setPosition(String name, double x, double y) {
         for(Setting setting : settings) {
             if(setting.getName().equalsIgnoreCase(name)) {
@@ -56,6 +75,10 @@ public class DataStore implements Serializable {
         settings.add(new Setting(name, x, y));
     }
     
+    /**
+     * Deletes a saved profile
+     * @param name  the profile name
+     */
     public void deletePosition(String name) {
         for(int i = 0;i < settings.size();i++) {
             if(settings.get(i).getName().equalsIgnoreCase(name)) {
@@ -65,6 +88,10 @@ public class DataStore implements Serializable {
         }
     }
     
+    /**
+     * Saves profiles in memory to a file
+     * @return  {@code true} if the save succeeded, {@code false} otherwise
+     */
     public boolean save() {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("positions.dat")))) {
             oos.writeUnshared(this);
@@ -75,6 +102,10 @@ public class DataStore implements Serializable {
         return true;
     }
     
+    /**
+     * Loads profiles file into a {@link com.ppetrie.crosshair.DataStore DataStore} object
+     * @return  the new {@link com.ppetrie.crosshair.DataStore DataStore} object
+     */
     public static DataStore load() {
         File dataFile = new File("positions.dat");
         try {
@@ -107,22 +138,42 @@ public class DataStore implements Serializable {
             this.y = y;
         }
         
+        /**
+         * Gets the name of this profile
+         * @return  the profile name
+         */
         public String getName() {
             return name;
         }
         
+        /**
+         * Gets the x-position of this profile
+         * @return  the x-position
+         */
         public double getX() {
             return x;
         }
         
+        /**
+         * Gets the y-position of this profile
+         * @return  the y-position
+         */
         public double getY() {
             return y;
         }
         
+        /**
+         * Sets the x-position of this profile
+         * @param x the new x-position
+         */
         private void setX(double x) {
             this.x = x;
         }
         
+        /**
+         * Sets the y-position of this profile
+         * @param y the new y-position
+         */
         private void setY(double y) {
             this.y = y;
         }

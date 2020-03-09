@@ -10,6 +10,9 @@ public class Mover implements EventHandler<MouseEvent> {
     private static Thread moverThread;
     private volatile Object block = new Object();
     
+    /**
+     * Initialize and start the background thread responsible for moving the crosshair
+     */
     public void init() {
         moverThread = new Thread(() -> {
             while(true) {
@@ -41,6 +44,9 @@ public class Mover implements EventHandler<MouseEvent> {
         moverThread.start();
     }
 
+    /**
+     * Handles movement button presses
+     */
     @Override
     public void handle(MouseEvent event) {
         synchronized(block) {
@@ -79,6 +85,9 @@ public class Mover implements EventHandler<MouseEvent> {
         }
     }
     
+    /**
+     * Updates the text fields in the main window with the crosshair's current position
+     */
     public static void updateFields() {
         Crosshair.xField.setText(String.format("%.0f", Crosshair.chStage.getX() + (Crosshair.CH_WIDTH / 2)));
         Crosshair.yField.setText(String.format("%.0f", Crosshair.chStage.getY() + (Crosshair.CH_HEIGHT / 2)));

@@ -21,8 +21,22 @@ import javafx.stage.WindowEvent;
 
 public class Crosshair extends Application {
     
-    private static final int HEIGHT = 300, WIDTH = 300;
-    public static final int CH_HEIGHT = 50, CH_WIDTH = 50;
+    /**
+     * Height of the main stage
+     */
+    private static final int HEIGHT = 300;
+    /**
+     * Width of the main stage
+     */
+    private static final int WIDTH = 300;
+    /**
+     * Height of the crosshair
+     */
+    public static final int CH_HEIGHT = 50;
+    /**
+     * Width of the crosshair
+     */
+    public static final int CH_WIDTH = 50;
     public static final String LEFT = "\u2190", RIGHT = "\u2192", UP = "\u2191", DOWN = "\u2193";
     
     private static Mover mover;
@@ -33,7 +47,7 @@ public class Crosshair extends Application {
     public static TextField nameField;
     
     private static DataStore data;
-
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         data = DataStore.load();
@@ -172,6 +186,9 @@ public class Crosshair extends Application {
         Mover.updateFields();
     }
     
+    /**
+     * Updates the list of profiles on the main application window
+     */
     private static void fillList() {
         settings.getItems().clear();
         for(String name : data.getNames()) {
@@ -189,15 +206,27 @@ public class Crosshair extends Application {
         launch(new String[0]);
     }
     
+    /**
+     * Updates the position of the crosshair on the screen
+     * @param pos   The new position
+     */
     public static void setCrosshairPosition(double[] pos) {
         chStage.setX(pos[0] - (CH_WIDTH / 2));
         chStage.setY(pos[1] - (CH_HEIGHT / 2));
     }
     
+    /**
+     * Gets the position of the crosshair on the screen
+     * @return  The position
+     */
     public static double[] getCrosshairPosition() {
         return new double[] { chStage.getX() + (CH_WIDTH / 2), chStage.getY() + (CH_HEIGHT / 2) };
     }
     
+    /**
+     * Moves the crosshair to the position of a saved profile
+     * @param name  The name of the saved profile
+     */
     public static void load(String name) {
         double[] pos = data.getPosition(name);
         if(pos != null) {
@@ -205,12 +234,20 @@ public class Crosshair extends Application {
         }
     }
     
+    /**
+     * Saves the current crosshair position to a profile
+     * @param name  The profile name
+     */
     public static void save(String name) {
         double[] position = getCrosshairPosition();
         data.setPosition(name, position[0], position[1]);
         fillList();
     }
     
+    /**
+     * Deletes a profile
+     * @param name  The profile name
+     */
     public static void delete(String name) {
         data.deletePosition(name);
         fillList();
