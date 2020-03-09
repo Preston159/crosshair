@@ -7,6 +7,9 @@ import java.io.IOException;
 
 public class ErrorReporter {
     
+    /**
+     * Creates an error report
+     */
     public static void createErrorReport() {
         File debugLog = new File("debug.log");
         String dlContent;
@@ -59,10 +62,20 @@ public class ErrorReporter {
         debugLog.delete();
     }
     
+    /**
+     * Appends a Windows system environment variable, along with its name, to a {@link java.lang.StringBuilder StringBuilder} object
+     * @param sb        the {@link java.lang.StringBuilder StringBuilder} to be appended
+     * @param envName   the environment variable name
+     */
     private static void appendEnv(StringBuilder sb, String envName) {
         sb.append(envName + ": " + System.getenv(envName) + "\n");
     }
     
+    /**
+     * Appends a Java system property's value, along with its name, to a {@link java.lang.StringBuilder StringBuilder} object
+     * @param sb        the {@link java.lang.StringBuilder StringBuilder} to be appended
+     * @param propName  the property name
+     */
     private static void appendSysProp(StringBuilder sb, String propName) {
         sb.append(propName + ": " + System.getProperty(propName) + "\n");
     }

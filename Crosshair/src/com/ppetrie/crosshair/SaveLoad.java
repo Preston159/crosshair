@@ -14,6 +14,9 @@ public class SaveLoad implements EventHandler<MouseEvent> {
         this.delete = delete;
     }
 
+    /**
+     * Handles the save, load, and delete button presses
+     */
     @Override
     public void handle(MouseEvent e) {
         Button button = (Button) e.getSource();
