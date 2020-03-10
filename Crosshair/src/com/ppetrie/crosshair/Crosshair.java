@@ -38,18 +38,18 @@ public class Crosshair extends Application {
      */
     public static final int CH_WIDTH = 50;
     public static final String LEFT = "\u2190", RIGHT = "\u2192", UP = "\u2191", DOWN = "\u2193", HIDE = "±";
-    public static Button left, right, up, down, hide;
+    static Button left, right, up, down, hide;
     /**
      * The name of the default profile
      */
     public static final String DEFAULT_PROFILE = "Default";
     
     private static Mover mover;
-    public static Stage chStage;
-    public static ListView<String> settings;
-    public static TextField xField, yField;
-    public static Label xLabel, yLabel;
-    public static TextField nameField;
+    static Stage chStage;
+    static ListView<String> settings;
+    static TextField xField, yField;
+    static Label xLabel, yLabel;
+    static TextField nameField;
     
     private static DataStore data;
     
