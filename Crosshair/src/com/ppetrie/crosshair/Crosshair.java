@@ -37,7 +37,7 @@ public class Crosshair extends Application {
      * Width of the crosshair
      */
     public static final int CH_WIDTH = 50;
-    public static final String LEFT = "\u2190", RIGHT = "\u2192", UP = "\u2191", DOWN = "\u2193";
+    public static final String LEFT = "\u2190", RIGHT = "\u2192", UP = "\u2191", DOWN = "\u2193", HIDE = "±";
     
     private static Mover mover;
     public static Stage chStage;
@@ -90,6 +90,11 @@ public class Crosshair extends Application {
         down.setText(DOWN);
         root.add(down, 1, 2, 1, 1);
         down.addEventHandler(MouseEvent.ANY, mover);
+        
+        Button hide = new Button();
+        hide.setText(HIDE);
+        root.add(hide, 1, 1, 1, 1);
+        hide.addEventFilter(MouseEvent.ANY, mover);
         
         settings = new ListView<>();
         settings.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {

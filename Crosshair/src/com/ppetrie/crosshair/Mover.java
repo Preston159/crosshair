@@ -64,6 +64,13 @@ public class Mover implements EventHandler<MouseEvent> {
                 case Crosshair.RIGHT:
                     movement[0] = 1d;
                     break;
+                case Crosshair.HIDE:
+                    if(Crosshair.chStage.isShowing()) {
+                        Crosshair.chStage.hide();
+                    } else {
+                        Crosshair.chStage.show();
+                    }
+                    break;
                 default: break;
                 }
                 synchronized(block) {
