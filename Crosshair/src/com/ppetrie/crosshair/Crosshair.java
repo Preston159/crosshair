@@ -38,6 +38,7 @@ public class Crosshair extends Application {
      */
     public static final int CH_WIDTH = 50;
     public static final String LEFT = "\u2190", RIGHT = "\u2192", UP = "\u2191", DOWN = "\u2193", HIDE = "±";
+    public static Button left, right, up, down, hide;
     /**
      * The name of the default profile
      */
@@ -75,31 +76,73 @@ public class Crosshair extends Application {
         
         GridPane root = new GridPane();
         
-        Button left = new Button();
+        createCrosshairButtons(root);
+        createProfileList(root);
+        createLabelsAndFields(root);
+        createProfileButtons(root);
+        
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
+        ImageView crosshair = new ImageView();
+        crosshair.maxWidth(CH_WIDTH);
+        crosshair.maxHeight(CH_HEIGHT);
+        Image chImage = new Image("file:simple.png");
+        crosshair.setImage(chImage);
+        crosshair.autosize();
+        crosshair.resize(CH_WIDTH / chImage.getWidth(), CH_HEIGHT / chImage.getHeight());
+        
+        StackPane chRoot = new StackPane();
+        chRoot.getChildren().add(crosshair);
+        chRoot.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
+        Scene chScene = new Scene(chRoot, CH_WIDTH, CH_HEIGHT);
+        chStage = new Stage();
+        chScene.setFill(Color.TRANSPARENT);
+        chStage.setScene(chScene);
+        chStage.initStyle(StageStyle.TRANSPARENT);
+        chStage.show();
+        chStage.centerOnScreen();
+        chStage.setAlwaysOnTop(true);
+        
+        if(data.getPosition(DEFAULT_PROFILE) == null) {
+            save(DEFAULT_PROFILE);
+        }
+        load(DEFAULT_PROFILE);
+        
+        fillList();
+        Mover.updateFields();
+    }
+    
+    
+    private static void createCrosshairButtons(GridPane root) {
+        left = new Button();
         left.setText(LEFT);
         root.add(left, 0, 1, 1, 1);
         left.addEventHandler(MouseEvent.ANY, mover);
         
-        Button right = new Button();
+        right = new Button();
         right.setText(RIGHT);
         root.add(right, 2, 1, 1, 1);
         right.addEventHandler(MouseEvent.ANY, mover);
         
-        Button up = new Button();
+        up = new Button();
         up.setText(UP);
         root.add(up, 1, 0, 1, 1);
         up.addEventHandler(MouseEvent.ANY, mover);
         
-        Button down = new Button();
+        down = new Button();
         down.setText(DOWN);
         root.add(down, 1, 2, 1, 1);
         down.addEventHandler(MouseEvent.ANY, mover);
         
-        Button hide = new Button();
+        hide = new Button();
         hide.setText(HIDE);
         root.add(hide, 1, 1, 1, 1);
         hide.addEventFilter(MouseEvent.ANY, mover);
-        
+    }
+    
+    private static void createProfileList(GridPane root) {
         settings = new ListView<>();
         settings.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
@@ -111,7 +154,9 @@ public class Crosshair extends Application {
             
         });
         root.add(settings, 0, 4, 9, 1);
-        
+    }
+    
+    private static void createLabelsAndFields(GridPane root) {
         xLabel = new Label("X:");
         root.add(xLabel, 3, 0, 1, 1);
         yLabel = new Label("Y:");
@@ -147,7 +192,9 @@ public class Crosshair extends Application {
         
         nameField = new TextField(DEFAULT_PROFILE);
         root.add(nameField, 2, 3, 4, 1);
-        
+    }
+    
+    private static void createProfileButtons(GridPane root) {
         Button save = new Button("Save");
         root.add(save, 6, 3, 1, 1);
         
@@ -161,38 +208,6 @@ public class Crosshair extends Application {
         save.addEventHandler(MouseEvent.MOUSE_CLICKED, saveLoad);
         load.addEventHandler(MouseEvent.MOUSE_CLICKED, saveLoad);
         delete.addEventHandler(MouseEvent.MOUSE_CLICKED, saveLoad);
-        
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        
-        ImageView crosshair = new ImageView();
-        crosshair.maxWidth(CH_WIDTH);
-        crosshair.maxHeight(CH_HEIGHT);
-        Image chImage = new Image("file:simple.png");
-        crosshair.setImage(chImage);
-        crosshair.autosize();
-        crosshair.resize(CH_WIDTH / chImage.getWidth(), CH_HEIGHT / chImage.getHeight());
-        
-        StackPane chRoot = new StackPane();
-        chRoot.getChildren().add(crosshair);
-        chRoot.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
-        Scene chScene = new Scene(chRoot, CH_WIDTH, CH_HEIGHT);
-        chStage = new Stage();
-        chScene.setFill(Color.TRANSPARENT);
-        chStage.setScene(chScene);
-        chStage.initStyle(StageStyle.TRANSPARENT);
-        chStage.show();
-        chStage.centerOnScreen();
-        chStage.setAlwaysOnTop(true);
-        
-        if(data.getPosition(DEFAULT_PROFILE) == null) {
-            save(DEFAULT_PROFILE);
-        }
-        load(DEFAULT_PROFILE);
-        
-        fillList();
-        Mover.updateFields();
     }
     
     /**
