@@ -38,6 +38,10 @@ public class Crosshair extends Application {
      */
     public static final int CH_WIDTH = 50;
     public static final String LEFT = "\u2190", RIGHT = "\u2192", UP = "\u2191", DOWN = "\u2193", HIDE = "±";
+    /**
+     * The name of the default profile
+     */
+    public static final String DEFAULT_PROFILE = "Default";
     
     private static Mover mover;
     public static Stage chStage;
@@ -141,7 +145,7 @@ public class Crosshair extends Application {
         Label nameLabel = new Label("Name:");
         root.add(nameLabel, 0, 3, 2, 1);
         
-        nameField = new TextField();
+        nameField = new TextField(DEFAULT_PROFILE);
         root.add(nameField, 2, 3, 4, 1);
         
         Button save = new Button("Save");
@@ -182,10 +186,10 @@ public class Crosshair extends Application {
         chStage.centerOnScreen();
         chStage.setAlwaysOnTop(true);
         
-        if(data.getPosition("Default") == null) {
-            save("Default");
+        if(data.getPosition(DEFAULT_PROFILE) == null) {
+            save(DEFAULT_PROFILE);
         }
-        load("Default");
+        load(DEFAULT_PROFILE);
         
         fillList();
         Mover.updateFields();
