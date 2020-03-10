@@ -114,7 +114,10 @@ public class Crosshair extends Application {
         Mover.updateFields();
     }
     
-    
+    /**
+     * Creates crosshair buttons
+     * @param root  the root pane
+     */
     private static void createCrosshairButtons(GridPane root) {
         left = new Button();
         left.setText(LEFT);
@@ -142,6 +145,10 @@ public class Crosshair extends Application {
         hide.addEventFilter(MouseEvent.ANY, mover);
     }
     
+    /**
+     * Creates profile {@link javafx.scene.control.ListView ListView}
+     * @param root  the root pane
+     */
     private static void createProfileList(GridPane root) {
         settings = new ListView<>();
         settings.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -156,6 +163,10 @@ public class Crosshair extends Application {
         root.add(settings, 0, 4, 9, 1);
     }
     
+    /**
+     * Creates labels and fields
+     * @param root  the root pane
+     */
     private static void createLabelsAndFields(GridPane root) {
         xLabel = new Label("X:");
         root.add(xLabel, 3, 0, 1, 1);
@@ -194,6 +205,10 @@ public class Crosshair extends Application {
         root.add(nameField, 2, 3, 4, 1);
     }
     
+    /**
+     * Creates profile buttons
+     * @param root  the root pane
+     */
     private static void createProfileButtons(GridPane root) {
         Button save = new Button("Save");
         root.add(save, 6, 3, 1, 1);
