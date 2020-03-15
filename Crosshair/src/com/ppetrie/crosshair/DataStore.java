@@ -7,19 +7,26 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 
 public class DataStore implements Serializable {
     private static final long serialVersionUID = -3250175611760498026L;
     
-    private final int VERSION = 0;
+    private final int VERSION = 1;
     
     private int version;
     private ArrayList<Setting> settings;
+    private String crosshairImageUri;
     
     public DataStore() {
         settings = new ArrayList<>();
         version = VERSION;
+        crosshairImageUri = Crosshair.DEFAULT_CROSSHAIR_URI;
+    }
+    
+    public void init() {
+        Crosshair.setCrosshairImage(crosshairImageUri);
     }
     
     /**
@@ -27,10 +34,28 @@ public class DataStore implements Serializable {
      */
     public void checkVersion() {
         if(version != VERSION) {
-            // TODO
+            System.out.println("Performing DataStore upgrade from version " + version + " to " + VERSION);
+            switch(version) {
+            case 0: {
+                crosshairImageUri = Crosshair.DEFAULT_CROSSHAIR_URI;
+                break;
+            }
+            default: break;
+            }
+            version = VERSION;
         }
     }
     
+    public boolean setCrosshairUri(String uri) {
+        try {
+            URI.create(uri);
+        } catch(NullPointerException | IllegalArgumentException e) {
+            return false;
+        }
+        crosshairImageUri = uri;
+        Crosshair.setCrosshairImage(uri);
+        return true;
+    }
     
     /**
      * Gets the names of all saved profiles
