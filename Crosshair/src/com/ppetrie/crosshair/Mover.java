@@ -2,6 +2,7 @@ package com.ppetrie.crosshair;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 
 public class Mover implements EventHandler<MouseEvent> {
@@ -49,44 +50,26 @@ public class Mover implements EventHandler<MouseEvent> {
      */
     @Override
     public void handle(MouseEvent event) {
+        Button button = (Button) event.getSource();
         synchronized(block) {
             if(event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-                switch(((Button) event.getSource()).getText()) {
-                case Crosshair.UP:
-                    movement[1] = -1d;
-                    break;
-                case Crosshair.DOWN:
-                    movement[1] = 1d;
-                    break;
-                case Crosshair.LEFT:
-                    movement[0] = -1d;
-                    break;
-                case Crosshair.RIGHT:
-                    movement[0] = 1d;
-                    break;
-                case Crosshair.HIDE:
-                    if(Crosshair.chStage.isShowing()) {
-                        Crosshair.chStage.hide();
-                    } else {
-                        Crosshair.chStage.show();
-                    }
-                    break;
-                default: break;
+                if(button == Crosshair.controller.buttonLeft) {
+                    movement[0] = -1;
+                } else if(button == Crosshair.controller.buttonRight) {
+                    movement[0] = 1;
+                } else if(button == Crosshair.controller.buttonUp) {
+                    movement[1] = -1;
+                } else if(button == Crosshair.controller.buttonDown) {
+                    movement[1] = 1;
                 }
                 synchronized(block) {
                     block.notifyAll();
                 }
             } else if(event.getEventType() == MouseEvent.MOUSE_RELEASED) {
-                switch(((Button) event.getSource()).getText()) {
-                case Crosshair.UP:
-                case Crosshair.DOWN:
-                    movement[1] = 0d;
-                    break;
-                case Crosshair.LEFT:
-                case Crosshair.RIGHT:
-                    movement[0] = 0d;
-                    break;
-                default: break;
+                if(button == Crosshair.controller.buttonLeft || button == Crosshair.controller.buttonRight) {
+                    movement[0] = 0;
+                } else if(button == Crosshair.controller.buttonUp || button == Crosshair.controller.buttonDown) {
+                    movement[1] = 0;
                 }
             }
         }
@@ -96,8 +79,23 @@ public class Mover implements EventHandler<MouseEvent> {
      * Updates the text fields in the main window with the crosshair's current position
      */
     public static void updateFields() {
-        Crosshair.xField.setText(String.format("%.0f", Crosshair.chStage.getX() + (Crosshair.CH_WIDTH / 2)));
-        Crosshair.yField.setText(String.format("%.0f", Crosshair.chStage.getY() + (Crosshair.CH_HEIGHT / 2)));
+        Crosshair.controller.xField.setText(String.format("%.0f", Crosshair.chStage.getX() + (Crosshair.CH_WIDTH / 2)));
+        Crosshair.controller.yField.setText(String.format("%.0f", Crosshair.chStage.getY() + (Crosshair.CH_HEIGHT / 2)));
+    }
+    
+    public static class Updater implements EventHandler<InputEvent> {
+
+        @Override
+        public void handle(InputEvent event) {
+            int x, y;
+            try {
+                x = Integer.valueOf(Crosshair.controller.xField.getText()) - (Crosshair.CH_WIDTH / 2);
+                y = Integer.valueOf(Crosshair.controller.yField.getText()) - (Crosshair.CH_HEIGHT / 2);
+                Crosshair.chStage.setX(x);
+                Crosshair.chStage.setY(y);
+            } catch(NumberFormatException nfe) { }
+        }
+        
     }
 
 }

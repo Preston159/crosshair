@@ -20,7 +20,7 @@ public class SaveLoad implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent e) {
         Button button = (Button) e.getSource();
-        String name = Crosshair.nameField.getText();
+        String name = Crosshair.controller.nameField.getText();
         if(button == load) {
             Crosshair.load(name);
         } else if(button == save) {

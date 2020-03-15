@@ -3,15 +3,10 @@ package com.ppetrie.crosshair;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -24,11 +19,11 @@ public class Crosshair extends Application {
     /**
      * Height of the main stage
      */
-    private static final int HEIGHT = 300;
+    static final int HEIGHT = 300;
     /**
      * Width of the main stage
      */
-    private static final int WIDTH = 300;
+    static final int WIDTH = 390;
     /**
      * Height of the crosshair
      */
@@ -37,21 +32,22 @@ public class Crosshair extends Application {
      * Width of the crosshair
      */
     public static final int CH_WIDTH = 50;
-    public static final String LEFT = "\u2190", RIGHT = "\u2192", UP = "\u2191", DOWN = "\u2193", HIDE = "±";
-    static Button left, right, up, down, hide;
     /**
      * The name of the default profile
      */
     public static final String DEFAULT_PROFILE = "Default";
+    public static final String DEFAULT_CROSSHAIR_URI = "file:simple.png";
     
-    private static Mover mover;
+    static Mover mover;
     static Stage chStage;
-    static ListView<String> settings;
-    static TextField xField, yField;
-    static Label xLabel, yLabel;
-    static TextField nameField;
+//    static ListView<String> settings;
+//    static TextField xField, yField;
+//    static Label xLabel, yLabel;
+//    static TextField nameField;
+    static ImageView crosshair;
     
     private static DataStore data;
+    static CrosshairController controller;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -71,27 +67,26 @@ public class Crosshair extends Application {
             }
         });
         
+        GridPane root;
         mover = new Mover();
         mover.init();
         
-        GridPane root = new GridPane();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            root = loader.load(getClass().getResource("application.fxml").openStream());
+            controller = loader.getController();
+            Scene scene = new Scene(root, WIDTH, HEIGHT);
+            primaryStage.setScene(scene);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         
-        createCrosshairButtons(root);
-        createProfileList(root);
-        createLabelsAndFields(root);
-        createProfileButtons(root);
-        
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        primaryStage.setScene(scene);
         primaryStage.show();
         
-        ImageView crosshair = new ImageView();
+        crosshair = new ImageView();
         crosshair.maxWidth(CH_WIDTH);
         crosshair.maxHeight(CH_HEIGHT);
-        Image chImage = new Image("file:simple.png");
-        crosshair.setImage(chImage);
-        crosshair.autosize();
-        crosshair.resize(CH_WIDTH / chImage.getWidth(), CH_HEIGHT / chImage.getHeight());
+        setCrosshairImage(DEFAULT_CROSSHAIR_URI);
         
         StackPane chRoot = new StackPane();
         chRoot.getChildren().add(crosshair);
@@ -111,127 +106,33 @@ public class Crosshair extends Application {
         load(DEFAULT_PROFILE);
         
         fillList();
+        data.init();
         Mover.updateFields();
     }
     
     /**
-     * Creates crosshair buttons
+     * Creates image selection label, textfield, and buttons
      * @param root  the root pane
      */
-    private static void createCrosshairButtons(GridPane root) {
-        left = new Button();
-        left.setText(LEFT);
-        root.add(left, 0, 1, 1, 1);
-        left.addEventHandler(MouseEvent.ANY, mover);
-        
-        right = new Button();
-        right.setText(RIGHT);
-        root.add(right, 2, 1, 1, 1);
-        right.addEventHandler(MouseEvent.ANY, mover);
-        
-        up = new Button();
-        up.setText(UP);
-        root.add(up, 1, 0, 1, 1);
-        up.addEventHandler(MouseEvent.ANY, mover);
-        
-        down = new Button();
-        down.setText(DOWN);
-        root.add(down, 1, 2, 1, 1);
-        down.addEventHandler(MouseEvent.ANY, mover);
-        
-        hide = new Button();
-        hide.setText(HIDE);
-        root.add(hide, 1, 1, 1, 1);
-        hide.addEventFilter(MouseEvent.ANY, mover);
-    }
-    
-    /**
-     * Creates profile {@link javafx.scene.control.ListView ListView}
-     * @param root  the root pane
-     */
-    private static void createProfileList(GridPane root) {
-        settings = new ListView<>();
-        settings.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent e) {
-                String name = settings.getSelectionModel().getSelectedItem();
-                nameField.setText(name);
-            }
-            
-        });
-        root.add(settings, 0, 4, 9, 1);
-    }
-    
-    /**
-     * Creates labels and fields
-     * @param root  the root pane
-     */
-    private static void createLabelsAndFields(GridPane root) {
-        xLabel = new Label("X:");
-        root.add(xLabel, 3, 0, 1, 1);
-        yLabel = new Label("Y:");
-        root.add(yLabel, 3, 1, 1, 1);
-        
-        xField = new TextField("0.0");
-        xField.addEventHandler(InputEvent.ANY, new EventHandler<InputEvent>() {
-
-            @Override
-            public void handle(InputEvent arg0) {
-                try {
-                    chStage.setX(Double.parseDouble(xField.getText()) - (CH_WIDTH / 2));
-                } catch(NumberFormatException nfe) { }
-            }
-            
-        });
-        root.add(xField, 4, 0, 5, 1);
-        yField = new TextField("0.0");
-        yField.addEventHandler(InputEvent.ANY, new EventHandler<InputEvent>() {
-
-            @Override
-            public void handle(InputEvent arg0) {
-                try {
-                    chStage.setY(Double.parseDouble(yField.getText()) - (CH_HEIGHT / 2));
-                } catch(NumberFormatException nfe) { }
-            }
-            
-        });
-        root.add(yField, 4, 1, 5, 1);
-        
-        Label nameLabel = new Label("Name:");
-        root.add(nameLabel, 0, 3, 2, 1);
-        
-        nameField = new TextField(DEFAULT_PROFILE);
-        root.add(nameField, 2, 3, 4, 1);
-    }
-    
-    /**
-     * Creates profile buttons
-     * @param root  the root pane
-     */
-    private static void createProfileButtons(GridPane root) {
-        Button save = new Button("Save");
-        root.add(save, 6, 3, 1, 1);
-        
-        Button load = new Button("Load");
-        root.add(load, 7, 3, 1, 1);
-        
-        Button delete = new Button("Delete");
-        root.add(delete, 8, 3, 1, 1);
-        
-        SaveLoad saveLoad = new SaveLoad(save, load, delete);
-        save.addEventHandler(MouseEvent.MOUSE_CLICKED, saveLoad);
-        load.addEventHandler(MouseEvent.MOUSE_CLICKED, saveLoad);
-        delete.addEventHandler(MouseEvent.MOUSE_CLICKED, saveLoad);
-    }
+//    private static void createImageSelector(GridPane root) {
+//        HBox imageSelectorPane = new HBox();
+//        root.add(imageSelectorPane, 0, 5, 9, 1);
+//        
+//        Label imageUriLabel = new Label("Image URI:");
+//        TextField imageUriField = new TextField();
+//        Button browseButton = new Button("Browse");
+//        Button loadButton = new Button("Load Image");
+//        
+//        imageSelectorPane.getChildren().addAll(imageUriLabel, imageUriField, browseButton, loadButton);
+//    }
     
     /**
      * Updates the list of profiles on the main application window
      */
     private static void fillList() {
-        settings.getItems().clear();
+        controller.settings.getItems().clear();
         for(String name : data.getNames()) {
-            settings.getItems().add(name);
+            controller.settings.getItems().add(name);
         }
     }
     
@@ -260,6 +161,17 @@ public class Crosshair extends Application {
      */
     public static double[] getCrosshairPosition() {
         return new double[] { chStage.getX() + (CH_WIDTH / 2), chStage.getY() + (CH_HEIGHT / 2) };
+    }
+    
+    /**
+     * Updates the image used for the crosshair
+     * @param uri   The new image's URI
+     */
+    public static void setCrosshairImage(String uri) {
+        Image chImage = new Image(uri);
+        crosshair.setImage(chImage);
+        crosshair.autosize();
+        crosshair.resize(CH_WIDTH / chImage.getWidth(), CH_HEIGHT / chImage.getHeight());
     }
     
     /**

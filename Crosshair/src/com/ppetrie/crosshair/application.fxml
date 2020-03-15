@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<!--<?import javafx.graphics.*?>-->
+
+<GridPane fx:controller="com.ppetrie.crosshair.CrosshairController" xmlns:fx="http://javafx.com/fxml">
+    <Button fx:id="buttonLeft"  text="&#x2190;" GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="30" prefHeight="30" />
+    <Button fx:id="buttonRight" text="&#x2192;" GridPane.columnIndex="2" GridPane.rowIndex="1" prefWidth="30" prefHeight="30" />
+    <Button fx:id="buttonUp"    text="&#x2191;" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="30" prefHeight="30" />
+    <Button fx:id="buttonDown"  text="&#x2193;" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="30" prefHeight="30" />
+    <Button fx:id="buttonHide"  text="&#x00b1;" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#handleShowHide" prefWidth="30" prefHeight="30" />
+    
+    <GridPane GridPane.columnIndex="3" GridPane.rowIndex="0" GridPane.rowSpan="3" prefWidth="300" prefHeight="90">
+        <Label text=" X:" GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="20" />
+        <TextField fx:id="xField" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="280" />
+        <Label text=" Y:" GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="20" />
+        <TextField fx:id="yField" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="280" />
+    </GridPane>
+    
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="4" prefWidth="390">
+        <Label text="Name:" />
+        <TextField fx:id="nameField" text="Default" />
+        <Button text="Save" onAction="#handleSaveProfile" />
+        <Button text="Load" onAction="#handleLoadProfile" />
+        <Button text="Delete" onAction="#handleDeleteProfile" />
+    </HBox>
+    
+    <ListView fx:id="settings" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="4" onMouseClicked="#handleProfileClick" prefWidth="390" />
+    
+</GridPane>
