@@ -48,6 +48,10 @@ public class DataStore implements Serializable {
         crosshairImageUri = uri;
     }
     
+    public String getCrosshairUri() {
+        return crosshairImageUri;
+    }
+    
     /**
      * Gets the names of all saved profiles
      * @return  the list of names
