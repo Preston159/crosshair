@@ -29,4 +29,12 @@
     
     <ListView fx:id="settings" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="4" onMouseClicked="#handleProfileClick" prefWidth="390" />
     
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="4" prefWidth="390">
+        <Label text="Image URI:" />
+        <TextField fx:id="uriField" />
+        <Button text="Load" onAction="#handleLoadCrosshairImage" />
+        <Button text="Browse" onAction="#handleBrowseCrosshairImage" />
+        <Button text="Reset" onAction="#handleResetCrosshairImage" />
+    </HBox>
+    
 </GridPane>

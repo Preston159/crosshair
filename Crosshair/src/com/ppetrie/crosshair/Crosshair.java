@@ -38,6 +38,7 @@ public class Crosshair extends Application {
     public static final String DEFAULT_PROFILE = "Default";
     public static final String DEFAULT_CROSSHAIR_URI = "file:simple.png";
     
+    static Stage primaryStage;
     static Mover mover;
     static Stage chStage;
 //    static ListView<String> settings;
@@ -51,6 +52,7 @@ public class Crosshair extends Application {
     
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Crosshair.primaryStage = primaryStage;
         data = DataStore.load();
         if(data == null) {
             data = new DataStore();
@@ -76,6 +78,7 @@ public class Crosshair extends Application {
             root = loader.load(getClass().getResource("application.fxml").openStream());
             controller = loader.getController();
             Scene scene = new Scene(root, WIDTH, HEIGHT);
+            scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
             primaryStage.setScene(scene);
         } catch(Exception e) {
             e.printStackTrace();
@@ -172,6 +175,7 @@ public class Crosshair extends Application {
         crosshair.setImage(chImage);
         crosshair.autosize();
         crosshair.resize(CH_WIDTH / chImage.getWidth(), CH_HEIGHT / chImage.getHeight());
+        data.setCrosshairUri(uri);
     }
     
     /**
