@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class MessageBox {
     
-    private static final int WIDTH = 300, HEIGHT = 100;
+    private static final int WIDTH = 300, HEIGHT = 150;
     
     private final Stage stage;
     private final Button okButton;
@@ -23,7 +23,7 @@ public class MessageBox {
         Label messageLabel = new Label(message);
         messageLabel.setPrefWidth(WIDTH - 10d);
         messageLabel.setMaxWidth(WIDTH - 10d);
-        messageLabel.setTextAlignment(TextAlignment.CENTER);
+        messageLabel.setWrapText(true);
         okButton = new Button("OK");
         okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override

@@ -62,10 +62,11 @@ public class Crosshair extends Application {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                data.save();
-                chStage.close();
-                Platform.exit();
-                System.exit(0);
+                if(data.save()) {
+                    chStage.close();
+                    Platform.exit();
+                    System.exit(0);
+                } else event.consume();
             }
         });
         
