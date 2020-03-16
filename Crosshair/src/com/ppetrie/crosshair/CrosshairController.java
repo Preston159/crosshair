@@ -62,6 +62,10 @@ public class CrosshairController {
             return;
         }
         if(!Util.isValidUri(newUri)) {
+            MessageBox mb = new MessageBox("The URI entered is invalid");
+            mb.showAndRunOnOk(() -> {
+                uriField.setText("");
+            });
             return;
         }
         Crosshair.setCrosshairImage(newUri);
