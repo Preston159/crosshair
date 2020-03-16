@@ -89,7 +89,7 @@ public class Crosshair extends Application {
         crosshair = new ImageView();
         crosshair.maxWidth(CH_WIDTH);
         crosshair.maxHeight(CH_HEIGHT);
-        setCrosshairImage(DEFAULT_CROSSHAIR_URI);
+        setCrosshairImage(data.getCrosshairUri());
         
         StackPane chRoot = new StackPane();
         chRoot.getChildren().add(crosshair);
