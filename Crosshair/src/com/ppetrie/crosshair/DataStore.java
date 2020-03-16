@@ -16,12 +16,11 @@ public class DataStore implements Serializable {
     
     private int version;
     private ArrayList<Setting> settings;
-    private String crosshairImageUri;
+    private String crosshairImageUri = Crosshair.DEFAULT_CROSSHAIR_URI;
     
     public DataStore() {
         settings = new ArrayList<>();
         version = VERSION;
-        crosshairImageUri = Crosshair.DEFAULT_CROSSHAIR_URI;
     }
     
     public void init() {
