@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.URI;
 import java.util.ArrayList;
 
 public class DataStore implements Serializable {
@@ -46,15 +45,8 @@ public class DataStore implements Serializable {
         }
     }
     
-    public boolean setCrosshairUri(String uri) {
-        try {
-            URI.create(uri);
-        } catch(NullPointerException | IllegalArgumentException e) {
-            return false;
-        }
+    public void setCrosshairUri(String uri) {
         crosshairImageUri = uri;
-        Crosshair.setCrosshairImage(uri);
-        return true;
     }
     
     /**
