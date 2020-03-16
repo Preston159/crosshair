@@ -9,10 +9,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
+
 public class DataStore implements Serializable {
     private static final long serialVersionUID = -3250175611760498026L;
     
     private final int VERSION = 1;
+    
+    private transient long loadTime;
     
     private int version;
     private ArrayList<Setting> settings;
@@ -21,6 +25,7 @@ public class DataStore implements Serializable {
     public DataStore() {
         settings = new ArrayList<>();
         version = VERSION;
+        loadTime = System.currentTimeMillis();
     }
     
     public void init() {
@@ -113,13 +118,30 @@ public class DataStore implements Serializable {
      * @return  {@code true} if the save succeeded, {@code false} otherwise
      */
     public boolean save() {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("positions.dat")))) {
+        File outFile = new File("positions.dat");
+        boolean status = true;
+        if(outFile.exists() && outFile.lastModified() > loadTime) {
+            outFile = new File("positions2.dat");
+            try {
+                outFile.delete();
+                outFile.createNewFile();
+            } catch(IOException ioe) {
+                ioe.printStackTrace();
+            }
+            MessageBox mb = new MessageBox("WARNING: positions.dat file has been modified since it was loaded (possibly by another instance?) Your current configuration has been saved to positions2.dat. Please rectify this problem before relaunching.");
+            mb.showAndRunOnOk(() -> {
+                Platform.exit();
+                System.exit(0);
+            });
+            status = false;
+        }
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outFile))) {
             oos.writeUnshared(this);
         } catch(IOException ioe) {
             ioe.printStackTrace();
             return false;
         }
-        return true;
+        return status;
     }
     
     /**
@@ -139,6 +161,7 @@ public class DataStore implements Serializable {
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(dataFile))) {
             DataStore out = (DataStore) ois.readUnshared();
             out.checkVersion();
+            out.loadTime = System.currentTimeMillis();
             return out;
         } catch(IOException | ClassNotFoundException e) {
             e.printStackTrace();
