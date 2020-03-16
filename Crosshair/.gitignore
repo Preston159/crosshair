@@ -1,0 +1,8 @@
+bin/
+debuginfo
+positions.dat
+positions*.dat
+.classpath
+.project
+.settings/
+src/com/ppetrie/crosshair/TestStart.java
