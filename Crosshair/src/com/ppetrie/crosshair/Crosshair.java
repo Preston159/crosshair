@@ -41,10 +41,6 @@ public class Crosshair extends Application {
     static Stage primaryStage;
     static Mover mover;
     static Stage chStage;
-//    static ListView<String> settings;
-//    static TextField xField, yField;
-//    static Label xLabel, yLabel;
-//    static TextField nameField;
     static ImageView crosshair;
     
     private static DataStore data;
@@ -113,22 +109,6 @@ public class Crosshair extends Application {
         data.init();
         Mover.updateFields();
     }
-    
-    /**
-     * Creates image selection label, textfield, and buttons
-     * @param root  the root pane
-     */
-//    private static void createImageSelector(GridPane root) {
-//        HBox imageSelectorPane = new HBox();
-//        root.add(imageSelectorPane, 0, 5, 9, 1);
-//        
-//        Label imageUriLabel = new Label("Image URI:");
-//        TextField imageUriField = new TextField();
-//        Button browseButton = new Button("Browse");
-//        Button loadButton = new Button("Load Image");
-//        
-//        imageSelectorPane.getChildren().addAll(imageUriLabel, imageUriField, browseButton, loadButton);
-//    }
     
     /**
      * Updates the list of profiles on the main application window
