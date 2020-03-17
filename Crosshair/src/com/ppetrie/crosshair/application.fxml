@@ -21,7 +21,7 @@
     
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="4" prefWidth="390">
         <Label text="Name:" />
-        <TextField fx:id="nameField" text="Default" />
+        <TextField fx:id="nameField" text="" />
         <Button text="Save" onAction="#handleSaveProfile" />
         <Button text="Load" onAction="#handleLoadProfile" />
         <Button text="Delete" onAction="#handleDeleteProfile" />
