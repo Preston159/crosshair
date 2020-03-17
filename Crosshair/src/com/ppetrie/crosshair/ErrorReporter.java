@@ -8,7 +8,7 @@ import java.io.IOException;
 public class ErrorReporter {
     
     /**
-     * Creates an error report
+     * Creates an error report.
      */
     public static void createErrorReport() {
         File debugLog = new File("debug.log");
@@ -63,7 +63,7 @@ public class ErrorReporter {
     }
     
     /**
-     * Appends a Windows system environment variable, along with its name, to a {@link java.lang.StringBuilder StringBuilder} object
+     * Appends a Windows system environment variable, along with its name, to a {@link java.lang.StringBuilder StringBuilder} object.
      * @param sb        the {@link java.lang.StringBuilder StringBuilder} to be appended
      * @param envName   the environment variable name
      */
@@ -72,7 +72,7 @@ public class ErrorReporter {
     }
     
     /**
-     * Appends a Java system property's value, along with its name, to a {@link java.lang.StringBuilder StringBuilder} object
+     * Appends a Java system property's value, along with its name, to a {@link java.lang.StringBuilder StringBuilder} object.
      * @param sb        the {@link java.lang.StringBuilder StringBuilder} to be appended
      * @param propName  the property name
      */
