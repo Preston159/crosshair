@@ -50,6 +50,8 @@ public class CrosshairController {
         Mover.Updater updater = new Mover.Updater();
         xField.addEventHandler(InputEvent.ANY, updater);
         yField.addEventHandler(InputEvent.ANY, updater);
+        
+        nameField.setText(Crosshair.DEFAULT_PROFILE);
     }
     
     /**

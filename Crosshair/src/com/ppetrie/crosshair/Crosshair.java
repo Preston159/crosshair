@@ -188,8 +188,13 @@ public class Crosshair extends Application {
      * @param name  the profile name
      */
     public static void delete(String name) {
-        data.deletePosition(name);
-        fillList();
+        if(name.equalsIgnoreCase(DEFAULT_PROFILE)) {
+            MessageBox mb = new MessageBox("Cannot delete profile " + DEFAULT_PROFILE);
+            mb.show();
+        } else {
+            data.deletePosition(name);
+            fillList();
+        }
     }
 
 }
