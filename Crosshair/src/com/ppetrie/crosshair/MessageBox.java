@@ -11,9 +11,22 @@ import javafx.stage.Stage;
 
 public class MessageBox {
     
-    private static final int WIDTH = 300, HEIGHT = 150;
+    /**
+     * The width of the message box.
+     */
+    private static final int WIDTH = 300;
+    /**
+     * The height of the message box.
+     */
+    private static final int HEIGHT = 150;
     
+    /**
+     * The stage of this message box.
+     */
     private final Stage stage;
+    /**
+     * The OK button on this message box.
+     */
     private final Button okButton;
     
     public MessageBox(String message) {
@@ -48,10 +61,20 @@ public class MessageBox {
         stage = mbStage;
     }
     
+    /**
+     * Show this message box.<br />
+     * This method does not block the thread.
+     */
     public void show() {
         stage.show();
     }
     
+    /**
+     * Show this message box and run the provided {@link java.lang.Runnable Runnable} on OK.<br />
+     * This method does not block the thread.<br />
+     * The provided callback will not be run if the user closes the dialog by pressing X.
+     * @param run   the callback function
+     */
     public void showAndRunOnOk(Runnable run) {
         okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override

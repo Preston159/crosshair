@@ -14,12 +14,27 @@ import javafx.application.Platform;
 public class DataStore implements Serializable {
     private static final long serialVersionUID = -3250175611760498026L;
     
+    /**
+     * The most recent format version.
+     */
     private final int VERSION = 1;
     
+    /**
+     * The time at which this object was loaded.
+     */
     private transient long loadTime;
     
+    /**
+     * The format version of this object.
+     */
     private int version;
+    /**
+     * The list of available profiles.
+     */
     private ArrayList<Setting> settings;
+    /**
+     * The URI of the current crosshair image.
+     */
     private String crosshairImageUri = Crosshair.DEFAULT_CROSSHAIR_URI;
     
     public DataStore() {
@@ -28,12 +43,15 @@ public class DataStore implements Serializable {
         loadTime = System.currentTimeMillis();
     }
     
+    /**
+     * Initializes this object.
+     */
     public void init() {
         Crosshair.setCrosshairImage(crosshairImageUri);
     }
     
     /**
-     * Checks whether the loaded {@link com.ppetrie.crosshair.DataStore DataStore} object needs modification due to a version difference
+     * Checks whether the loaded {@link com.ppetrie.crosshair.DataStore DataStore} object needs modification due to a version difference.
      */
     public void checkVersion() {
         if(version != VERSION) {
@@ -49,16 +67,24 @@ public class DataStore implements Serializable {
         }
     }
     
+    /**
+     * Updates the crosshair image URI.<br />
+     * This method does NOT actually update the image, nor perform a validity check.
+     * @param uri
+     */
     public void setCrosshairUri(String uri) {
         crosshairImageUri = uri;
     }
     
+    /**
+     * @return  the current crosshair image's URI.
+     */
     public String getCrosshairUri() {
         return crosshairImageUri;
     }
     
     /**
-     * Gets the names of all saved profiles
+     * Gets the names of all saved profiles.
      * @return  the list of names
      */
     public ArrayList<String> getNames() {
@@ -70,7 +96,7 @@ public class DataStore implements Serializable {
     }
     
     /**
-     * Gets the position of a saved profile
+     * Gets the position of a saved profile.
      * @param name  the profile name
      * @return      the saved position
      */
@@ -84,7 +110,7 @@ public class DataStore implements Serializable {
     }
     
     /**
-     * Updates the position of a saved profile or creates a new one
+     * Updates the position of a saved profile or creates a new one.
      * @param name  the profile name
      * @param x     the x-position
      * @param y     the y-position
@@ -101,7 +127,7 @@ public class DataStore implements Serializable {
     }
     
     /**
-     * Deletes a saved profile
+     * Deletes a saved profile.
      * @param name  the profile name
      */
     public void deletePosition(String name) {
@@ -114,7 +140,7 @@ public class DataStore implements Serializable {
     }
     
     /**
-     * Saves profiles in memory to a file
+     * Saves profiles in memory to a file.
      * @return  {@code true} if the save succeeded, {@code false} otherwise
      */
     public boolean save() {
@@ -145,7 +171,7 @@ public class DataStore implements Serializable {
     }
     
     /**
-     * Loads profiles file into a {@link com.ppetrie.crosshair.DataStore DataStore} object
+     * Loads profiles file into a {@link com.ppetrie.crosshair.DataStore DataStore} object.
      * @return  the new {@link com.ppetrie.crosshair.DataStore DataStore} object
      */
     public static DataStore load() {
@@ -172,7 +198,13 @@ public class DataStore implements Serializable {
     private static class Setting implements Serializable {
         private static final long serialVersionUID = 2476991651084982928L;
         
+        /**
+         * The name of this profile.
+         */
         private String name;
+        /**
+         * The position of this profile.
+         */
         private double x, y;
         
         private Setting(String name, double x, double y) {
@@ -182,7 +214,7 @@ public class DataStore implements Serializable {
         }
         
         /**
-         * Gets the name of this profile
+         * Gets the name of this profile.
          * @return  the profile name
          */
         public String getName() {
@@ -190,7 +222,7 @@ public class DataStore implements Serializable {
         }
         
         /**
-         * Gets the x-position of this profile
+         * Gets the x-position of this profile.
          * @return  the x-position
          */
         public double getX() {
@@ -198,7 +230,7 @@ public class DataStore implements Serializable {
         }
         
         /**
-         * Gets the y-position of this profile
+         * Gets the y-position of this profile.
          * @return  the y-position
          */
         public double getY() {
@@ -206,7 +238,7 @@ public class DataStore implements Serializable {
         }
         
         /**
-         * Sets the x-position of this profile
+         * Sets the x-position of this profile.
          * @param x the new x-position
          */
         private void setX(double x) {
@@ -214,7 +246,7 @@ public class DataStore implements Serializable {
         }
         
         /**
-         * Sets the y-position of this profile
+         * Sets the y-position of this profile.
          * @param y the new y-position
          */
         private void setY(double y) {

@@ -17,25 +17,28 @@ import javafx.stage.WindowEvent;
 public class Crosshair extends Application {
     
     /**
-     * Height of the main stage
+     * Height of the main stage.
      */
     static final int HEIGHT = 300;
     /**
-     * Width of the main stage
+     * Width of the main stage.
      */
     static final int WIDTH = 390;
     /**
-     * Height of the crosshair
+     * Height of the crosshair.
      */
     public static final int CH_HEIGHT = 50;
     /**
-     * Width of the crosshair
+     * Width of the crosshair.
      */
     public static final int CH_WIDTH = 50;
     /**
-     * The name of the default profile
+     * The name of the default profile.
      */
     public static final String DEFAULT_PROFILE = "Default";
+    /**
+     * The URI of the default crosshair image.
+     */
     public static final String DEFAULT_CROSSHAIR_URI = "file:simple.png";
     
     static Stage primaryStage;
@@ -111,7 +114,7 @@ public class Crosshair extends Application {
     }
     
     /**
-     * Updates the list of profiles on the main application window
+     * Updates the list of profiles on the main application window.
      */
     private static void fillList() {
         controller.settings.getItems().clear();
@@ -131,8 +134,8 @@ public class Crosshair extends Application {
     }
     
     /**
-     * Updates the position of the crosshair on the screen
-     * @param pos   The new position
+     * Updates the position of the crosshair on the screen.
+     * @param pos   the new position
      */
     public static void setCrosshairPosition(double[] pos) {
         chStage.setX(pos[0] - (CH_WIDTH / 2));
@@ -140,16 +143,16 @@ public class Crosshair extends Application {
     }
     
     /**
-     * Gets the position of the crosshair on the screen
-     * @return  The position
+     * Gets the position of the crosshair on the screen.
+     * @return  the position
      */
     public static double[] getCrosshairPosition() {
         return new double[] { chStage.getX() + (CH_WIDTH / 2), chStage.getY() + (CH_HEIGHT / 2) };
     }
     
     /**
-     * Updates the image used for the crosshair
-     * @param uri   The new image's URI
+     * Updates the image used for the crosshair.
+     * @param uri   the new image's URI
      */
     public static void setCrosshairImage(String uri) {
         Image chImage = new Image(uri);
@@ -160,8 +163,8 @@ public class Crosshair extends Application {
     }
     
     /**
-     * Moves the crosshair to the position of a saved profile
-     * @param name  The name of the saved profile
+     * Moves the crosshair to the position of a saved profile.
+     * @param name  the name of the saved profile
      */
     public static void load(String name) {
         double[] pos = data.getPosition(name);
@@ -171,8 +174,8 @@ public class Crosshair extends Application {
     }
     
     /**
-     * Saves the current crosshair position to a profile
-     * @param name  The profile name
+     * Saves the current crosshair position to a profile.
+     * @param name  the profile name
      */
     public static void save(String name) {
         double[] position = getCrosshairPosition();
@@ -181,8 +184,8 @@ public class Crosshair extends Application {
     }
     
     /**
-     * Deletes a profile
-     * @param name  The profile name
+     * Deletes a profile.
+     * @param name  the profile name
      */
     public static void delete(String name) {
         data.deletePosition(name);
